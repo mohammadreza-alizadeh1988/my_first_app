@@ -1,0 +1,32 @@
+name: Flutter APK Build
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.35.1'
+
+    - name: Get dependencies
+      run: flutter pub get
+
+    - name: Build APK (debug)
+      run: flutter build apk --debug
+
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: my_first_app-debug-apk
+        path: build/app/outputs/flutter-apk/app-debug.apk
