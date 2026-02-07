@@ -1,0 +1,25 @@
+# Flutter
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+build/
+
+# Android
+android/.gradle/
+android/app/build/
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+
+# IDE
+.idea/
+.vscode/
+
+# Python venv (از قبل داشتی)
+venv/
+
+# Misc
+*.log

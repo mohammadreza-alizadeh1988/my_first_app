@@ -1,0 +1,24 @@
+pluginManagement {
+    includeBuild(System.getenv("FLUTTER_ROOT") + "/packages/flutter_tools/gradle")
+
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+
+    plugins {
+        id("dev.flutter.flutter-gradle-plugin")
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "my_first_app"
+include(":app")
