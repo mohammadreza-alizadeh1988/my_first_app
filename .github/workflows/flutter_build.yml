@@ -17,12 +17,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-- name: Setup Flutter
-  uses: subosito/flutter-action@v2
-  with:
-    channel: stable
-    cache: true
-
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
 
       - name: Flutter doctor
         run: flutter doctor -v
@@ -36,10 +35,8 @@ jobs:
       - name: Build APK (release)
         run: flutter build apk --release
 
-
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: debug-apk
+          name: release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
-
