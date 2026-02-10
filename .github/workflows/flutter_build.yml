@@ -1,4 +1,4 @@
-name: Flutter APK Build FORCE RUN
+name: Flutter APK Build RUN
 
 on:
   workflow_dispatch:
