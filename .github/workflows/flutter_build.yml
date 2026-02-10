@@ -1,4 +1,4 @@
-name: Flutter APK Build For Me
+name: Flutter APK Build FORCE RUN
 
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: stable
+          flutter-version: 3.13.0
           cache: false
 
       - name: Flutter doctor
@@ -30,8 +30,8 @@ jobs:
       - name: Pub get
         run: flutter pub get
 
-      - name: Build APK (release, verbose)
-        run: flutter build apk --release -v
+      - name: Build APK (release, skip validation)
+        run: flutter build apk --release --android-skip-build-dependency-validation -v
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
