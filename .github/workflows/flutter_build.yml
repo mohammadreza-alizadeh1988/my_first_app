@@ -1,9 +1,9 @@
-name: Flutter Release APK new
+name: Flutter Release APK
 
 on:
   push:
     branches:
-      - main  # یا برنچی که میخوای
+      - main
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.13.0' # <-- نسخه Flutter پروژه‌ت
+        flutter-version: '3.13.0'  # نسخه سازگار با Dart 3.9+
 
     - name: Install dependencies
       run: flutter pub get
