@@ -1,51 +1,34 @@
-name: Flutter APK Build RUN
+name: Flutter Release APK
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main  # یا هر برنچی که میخوای
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # مرحله 1: دریافت کد
-      - name: Checkout
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      # مرحله 2: نصب Java
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.13.0' # <-- این نسخه رو با نسخه پروژه‌ت عوض کن
 
-      # مرحله 3: نصب نسخه دقیق Flutter
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.13.0'  # نسخه دقیق Flutter پروژه
-          channel: stable
-          cache: true
+    - name: Install dependencies
+      run: flutter pub get
 
-      # مرحله 4: بررسی وضعیت Flutter
-      - name: Flutter doctor
-        run: flutter doctor -v
+    - name: Clean project
+      run: flutter clean
 
-      # مرحله 5: پاکسازی build قبلی
-      - name: Clean
-        run: flutter clean
+    - name: Build APK release
+      run: flutter build apk --release --android-skip-build-dependency-validation
 
-      # مرحله 6: نصب package ها
-      - name: Pub get
-        run: flutter pub get
-
-      # مرحله 7: ساخت APK release با skip dependency validation
-      - name: Build APK (release)
-        run: flutter build apk --release --android-skip-build-dependency-validation
-
-      # مرحله 8: آپلود فایل APK ساخته شده
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-release
+        path: build/app/outputs/flutter-apk/app-release.apk
