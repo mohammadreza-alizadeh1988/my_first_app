@@ -1,4 +1,4 @@
-name: Flutter APK Build Release
+name: Flutter APK Build RUN
 
 on:
   workflow_dispatch:
@@ -7,44 +7,44 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      JAVA_HOME: /usr/lib/jvm/java-17-temurin
-
     steps:
-      - name: Checkout repository
+      # مرحله 1: دریافت کد
+      - name: Checkout
         uses: actions/checkout@v4
 
-      
+      # مرحله 2: نصب Java
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
+      # مرحله 3: نصب نسخه دقیق Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.13.0'  
+          flutter-version: '3.13.0'  # نسخه دقیق Flutter پروژه
           channel: stable
           cache: true
 
-
+      # مرحله 4: بررسی وضعیت Flutter
       - name: Flutter doctor
         run: flutter doctor -v
 
-      - name: Clean build
+      # مرحله 5: پاکسازی build قبلی
+      - name: Clean
         run: flutter clean
 
-
-      - name: Get Flutter packages
+      # مرحله 6: نصب package ها
+      - name: Pub get
         run: flutter pub get
 
+      # مرحله 7: ساخت APK release با skip dependency validation
+      - name: Build APK (release)
+        run: flutter build apk --release --android-skip-build-dependency-validation
 
-      - name: Build Release APK
-        run: flutter build apk --release --no-sound-null-safety --android-skip-build-dependency-validation
-
-
-      - name: Upload Release APK
+      # مرحله 8: آپلود فایل APK ساخته شده
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
