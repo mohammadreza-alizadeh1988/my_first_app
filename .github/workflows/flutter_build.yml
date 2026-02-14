@@ -1,4 +1,4 @@
-name: Flutter APK Build
+name: Flutter APK Build To Success
 
 on:
   workflow_dispatch:
@@ -17,12 +17,12 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Setup Flutter (LATEST)
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.41.1'   # ⭐ نسخه درست
-          channel: stable
-          cache: false
+      # ⭐ نصب مستقیم Flutter جدید (قطعی)
+      - name: Install Flutter 3.41.1
+        run: |
+          git clone https://github.com/flutter/flutter.git -b stable --depth 1
+          echo "$PWD/flutter/bin" >> $GITHUB_PATH
+          flutter --version
 
       - name: Flutter Doctor
         run: flutter doctor -v
@@ -34,7 +34,7 @@ jobs:
         run: flutter pub get
 
       - name: Build APK Release
-        run: flutter build apk --release --verbose
+        run: flutter build apk --release
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
